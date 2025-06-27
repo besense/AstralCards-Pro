@@ -691,8 +691,8 @@
             <button class="nav-tab" onclick="showTab('contact')">📞 Contacto</button>
             <button class="nav-tab" onclick="showTab('forum')">💬 Foro</button>
             <button class="nav-tab" onclick="showTab('orders')">📋 Pedidos</button>
-            <button class="nav-tab" onclick="showTab('profile')">👤 Mi Cuenta</button>
-            <button class="nav-tab" onclick="showTab('admin')">⚙️ Admin</button>
+            <button class="nav-tab" onclick="showTab('profile')">👤 Mi Perfil</button>
+            <button class="nav-tab" id="adminTab" onclick="showTab('admin')" style="display: none;">⚙️ Admin</button>
         </div>
 
         <!-- Home Tab -->
@@ -1026,78 +1026,114 @@
         <!-- Profile Tab -->
         <div id="profile" class="tab-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="font-family: 'Crimson Text', serif; color: var(--gold);">👤 Mi Cuenta</h2>
+                <h2 style="font-family: 'Crimson Text', serif; color: var(--gold);">👤 Mi Perfil</h2>
                 <button class="btn btn-secondary" onclick="logout()" style="width: auto; padding: 10px 15px; font-size: 14px;">
                     🚪 Cerrar Sesión
                 </button>
             </div>
 
-            <!-- Profile Overview -->
+            <!-- Public Profile View -->
             <div class="mystical-border">
                 <div class="inner">
-                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">🌟 Mi Perfil Público</h3>
+                    <p style="color: var(--text-dark); margin-bottom: 20px; font-size: 14px;">
+                        Esta es la información que otros usuarios pueden ver cuando visitan tu perfil desde el foro.
+                    </p>
+                    
+                    <div style="display: flex; align-items: center; margin-bottom: 20px; background: rgba(15, 15, 35, 0.5); padding: 20px; border-radius: 12px;">
                         <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-purple), var(--gold)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-right: 20px;">
                             👤
                         </div>
-                        <div>
-                            <h3 style="color: var(--text-light); margin-bottom: 5px; font-size: 20px;" id="profileUsername">Usuario</h3>
-                            <p style="color: var(--text-dark); margin-bottom: 5px;" id="profileEmail">email@ejemplo.com</p>
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span id="onlineStatus" style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
-                                <span style="color: var(--text-dark); font-size: 12px;" id="lastSeenText">En línea</span>
+                        <div style="flex: 1;">
+                            <h3 style="color: var(--text-light); margin-bottom: 5px; font-size: 20px;" id="publicUsername">Usuario</h3>
+                            <p style="color: var(--text-dark); margin-bottom: 8px;" id="publicBio">Biografía astral no configurada</p>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span id="publicOnlineStatus" style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+                                <span style="color: var(--text-dark); font-size: 12px;" id="publicLastSeenText">En línea</span>
                             </div>
+                            <div style="color: var(--gold); font-size: 14px;" id="publicZodiacSign"></div>
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="font-size: 20px; color: var(--gold); font-weight: bold;" id="userPostCount">0</div>
+                        <div style="background: rgba(15, 15, 35, 0.7); padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;" onclick="showMyPosts()">
+                            <div style="font-size: 24px; color: var(--gold); font-weight: bold;" id="publicPostCount">0</div>
                             <div style="color: var(--text-dark); font-size: 12px;">Mensajes Totales</div>
+                            <div style="color: var(--primary-purple); font-size: 11px; margin-top: 5px;">👆 Ver mis mensajes</div>
                         </div>
-                        <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="font-size: 20px; color: var(--gold); font-weight: bold;" id="userThreadCount">0</div>
+                        <div style="background: rgba(15, 15, 35, 0.7); padding: 15px; border-radius: 8px; text-align: center; cursor: pointer;" onclick="showMyThreads()">
+                            <div style="font-size: 24px; color: var(--gold); font-weight: bold;" id="publicThreadCount">0</div>
                             <div style="color: var(--text-dark); font-size: 12px;">Hilos Participados</div>
+                            <div style="color: var(--primary-purple); font-size: 11px; margin-top: 5px;">👆 Ver hilos</div>
                         </div>
                     </div>
 
                     <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 10px;">📊 Mi Actividad</h4>
-                        <p style="color: var(--text-dark); margin-bottom: 10px;">
-                            <strong>📅 Miembro desde:</strong> <span id="memberSince">-</span>
+                        <h4 style="color: var(--text-light); margin-bottom: 10px;">📊 Información Pública</h4>
+                        <p style="color: var(--text-dark); margin-bottom: 5px;">
+                            <strong>📅 Miembro desde:</strong> <span id="publicMemberSince">-</span>
                         </p>
-                        <p style="color: var(--text-dark); margin-bottom: 10px;">
-                            <strong>🔑 Código de verificación:</strong> <span id="verificationCode">-</span>
+                        <p style="color: var(--text-dark); margin-bottom: 5px;">
+                            <strong>🔑 Código de usuario:</strong> <span id="publicVerificationCode">-</span>
                         </p>
-                        <div id="userThreadsList" style="margin-top: 15px;">
-                            <!-- User threads will be listed here -->
-                        </div>
+                        <p style="color: var(--text-dark); margin-bottom: 15px;">
+                            <strong>👁️ Visibilidad:</strong> <span id="profileVisibility">Perfil público</span>
+                        </p>
+                        
+                        <button class="btn btn-gold" onclick="previewPublicProfile()" style="width: auto; padding: 10px 15px;">
+                            👁️ Vista Previa (Como me ven otros)
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Profile Management Sections -->
-            <div style="display: grid; gap: 10px; margin-top: 20px;">
-                <button class="btn" onclick="showProfileSection('editProfile')" style="text-align: left; padding: 15px;">
-                    ✏️ Editar Perfil
-                </button>
-                <button class="btn" onclick="showProfileSection('privacy')" style="text-align: left; padding: 15px;">
-                    🔒 Privacidad y Seguridad
-                </button>
-                <button class="btn" onclick="showProfileSection('notifications')" style="text-align: left; padding: 15px;">
-                    🔔 Notificaciones
-                </button>
-                <button class="btn" onclick="showProfileSection('history')" style="text-align: left; padding: 15px;">
-                    📜 Historial de Actividad
-                </button>
-                <button class="btn" onclick="showProfileSection('preferences')" style="text-align: left; padding: 15px;">
-                    ⚙️ Preferencias
-                </button>
+            <!-- Account Management Menu -->
+            <div class="mystical-border" style="margin-top: 20px;">
+                <div class="inner">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">⚙️ Gestión de Cuenta</h3>
+                    <div style="display: grid; gap: 10px;">
+                        <button class="btn" onclick="showAccountSection('editProfile')" style="text-align: left; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>✏️ Editar Mi Perfil</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">→</span>
+                            </div>
+                        </button>
+                        <button class="btn" onclick="showAccountSection('privacy')" style="text-align: left; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>🔒 Privacidad y Seguridad</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">→</span>
+                            </div>
+                        </button>
+                        <button class="btn" onclick="showAccountSection('notifications')" style="text-align: left; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>🔔 Configuración de Notificaciones</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">→</span>
+                            </div>
+                        </button>
+                        <button class="btn" onclick="showAccountSection('activity')" style="text-align: left; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>📜 Mi Historial de Actividad</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">→</span>
+                            </div>
+                        </button>
+                        <button class="btn" onclick="showAccountSection('preferences')" style="text-align: left; padding: 15px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span>🎨 Preferencias de la App</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">→</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
             </div>
 
+            <!-- Account Management Sections (Hidden by default) -->
             <!-- Edit Profile Section -->
             <div id="editProfile" class="mystical-border" style="display: none; margin-top: 20px;">
                 <div class="inner">
-                    <h3 style="color: var(--gold); margin-bottom: 20px;">✏️ Editar Perfil</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">✏️ Editar Mi Perfil</h3>
+                        <button onclick="hideAccountSection('editProfile')" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
                     <div class="form-group">
                         <label>Nombre de Usuario</label>
                         <input type="text" id="editUsername" placeholder="Tu nombre de usuario">
@@ -1108,24 +1144,24 @@
                     </div>
                     <div class="form-group">
                         <label>Biografía Astral</label>
-                        <textarea id="editBio" placeholder="Cuéntanos un poco sobre ti y tu interés en la astrología..."></textarea>
+                        <textarea id="editBio" placeholder="Cuéntanos un poco sobre ti y tu conexión con la astrología..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Signo Zodiacal</label>
+                        <label>Tu Signo Zodiacal</label>
                         <select id="editZodiacSign">
                             <option value="">Seleccionar signo</option>
-                            <option value="aries">♈ Aries</option>
-                            <option value="taurus">♉ Tauro</option>
-                            <option value="gemini">♊ Géminis</option>
-                            <option value="cancer">♋ Cáncer</option>
-                            <option value="leo">♌ Leo</option>
-                            <option value="virgo">♍ Virgo</option>
-                            <option value="libra">♎ Libra</option>
-                            <option value="scorpio">♏ Escorpio</option>
-                            <option value="sagittarius">♐ Sagitario</option>
-                            <option value="capricorn">♑ Capricornio</option>
-                            <option value="aquarius">♒ Acuario</option>
-                            <option value="pisces">♓ Piscis</option>
+                            <option value="aries">♈ Aries (21 Mar - 19 Abr)</option>
+                            <option value="taurus">♉ Tauro (20 Abr - 20 May)</option>
+                            <option value="gemini">♊ Géminis (21 May - 20 Jun)</option>
+                            <option value="cancer">♋ Cáncer (21 Jun - 22 Jul)</option>
+                            <option value="leo">♌ Leo (23 Jul - 22 Ago)</option>
+                            <option value="virgo">♍ Virgo (23 Ago - 22 Sep)</option>
+                            <option value="libra">♎ Libra (23 Sep - 22 Oct)</option>
+                            <option value="scorpio">♏ Escorpio (23 Oct - 21 Nov)</option>
+                            <option value="sagittarius">♐ Sagitario (22 Nov - 21 Dic)</option>
+                            <option value="capricorn">♑ Capricornio (22 Dic - 19 Ene)</option>
+                            <option value="aquarius">♒ Acuario (20 Ene - 18 Feb)</option>
+                            <option value="pisces">♓ Piscis (19 Feb - 20 Mar)</option>
                         </select>
                     </div>
                     <div style="display: flex; gap: 10px;">
@@ -1138,26 +1174,29 @@
             <!-- Privacy Section -->
             <div id="privacy" class="mystical-border" style="display: none; margin-top: 20px;">
                 <div class="inner">
-                    <h3 style="color: var(--gold); margin-bottom: 20px;">🔒 Privacidad y Seguridad</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">🔒 Privacidad y Seguridad</h3>
+                        <button onclick="hideAccountSection('privacy')" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
                     
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 10px;">Visibilidad del Perfil</h4>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">👁️ Visibilidad del Perfil</h4>
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="showEmail" style="margin-right: 10px;">
-                            Mostrar email en perfil público
+                            <span>📧 Mostrar mi email en perfil público</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="showLastSeen" style="margin-right: 10px;" checked>
-                            Mostrar última conexión
+                            <span>🕐 Mostrar mi última conexión</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="showActivity" style="margin-right: 10px;" checked>
-                            Mostrar actividad en el foro
+                            <span>📊 Mostrar mi actividad en el foro</span>
                         </label>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 10px;">Cambiar Contraseña</h4>
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">🔐 Cambiar Contraseña</h4>
                         <div class="form-group">
                             <label>Contraseña Actual</label>
                             <input type="password" id="currentPassword" placeholder="••••••••">
@@ -1178,7 +1217,7 @@
                         <p style="color: var(--text-dark); margin-bottom: 15px; font-size: 14px;">
                             Esta acción eliminará permanentemente tu cuenta y todos tus datos. No se puede deshacer.
                         </p>
-                        <button class="btn btn-danger" onclick="deleteAccount()">🗑️ Eliminar Cuenta</button>
+                        <button class="btn btn-danger" onclick="deleteAccount()">🗑️ Eliminar Mi Cuenta</button>
                     </div>
                 </div>
             </div>
@@ -1186,25 +1225,28 @@
             <!-- Notifications Section -->
             <div id="notifications" class="mystical-border" style="display: none; margin-top: 20px;">
                 <div class="inner">
-                    <h3 style="color: var(--gold); margin-bottom: 20px;">🔔 Configuración de Notificaciones</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">🔔 Configuración de Notificaciones</h3>
+                        <button onclick="hideAccountSection('notifications')" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
                     
                     <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 15px;">Notificaciones por Email</h4>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">📧 Notificaciones por Email</h4>
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="notifyNewPosts" style="margin-right: 10px;" checked>
-                            Nuevas respuestas en mis hilos
+                            <span>💬 Nuevas respuestas en mis hilos</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="notifyOrderUpdates" style="margin-right: 10px;" checked>
-                            Actualizaciones de pedidos
+                            <span>📦 Actualizaciones de mis pedidos</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="notifyPromotions" style="margin-right: 10px;">
-                            Ofertas y promociones especiales
+                            <span>🎁 Ofertas y promociones especiales</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="notifyNewFeatures" style="margin-right: 10px;">
-                            Nuevas funciones de la app
+                            <span>✨ Nuevas funciones de la app</span>
                         </label>
                     </div>
 
@@ -1213,9 +1255,12 @@
             </div>
 
             <!-- Activity History Section -->
-            <div id="history" class="mystical-border" style="display: none; margin-top: 20px;">
+            <div id="activity" class="mystical-border" style="display: none; margin-top: 20px;">
                 <div class="inner">
-                    <h3 style="color: var(--gold); margin-bottom: 20px;">📜 Historial de Actividad</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">📜 Mi Historial de Actividad</h3>
+                        <button onclick="hideAccountSection('activity')" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
                     
                     <div id="activityHistory">
                         <!-- Activity history will be populated here -->
@@ -1226,38 +1271,44 @@
             <!-- Preferences Section -->
             <div id="preferences" class="mystical-border" style="display: none; margin-top: 20px;">
                 <div class="inner">
-                    <h3 style="color: var(--gold); margin-bottom: 20px;">⚙️ Preferencias de la App</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">🎨 Preferencias de la App</h3>
+                        <button onclick="hideAccountSection('preferences')" style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
                     
                     <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 15px;">Tema Visual</h4>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">🌙 Tema Visual</h4>
+                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="radio" name="theme" value="dark" style="margin-right: 10px;" checked>
-                            🌙 Tema Oscuro (Actual)
+                            <span>🌙 Tema Oscuro (Actual)</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="radio" name="theme" value="light" style="margin-right: 10px;">
-                            ☀️ Tema Claro
+                            <span>☀️ Tema Claro</span>
                         </label>
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 15px;">Idioma</h4>
-                        <select style="width: 100%; padding: 10px; background: rgba(15, 15, 35, 0.8); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; color: var(--text-light);">
-                            <option value="es" selected>🇪🇸 Español</option>
-                            <option value="en">🇬🇧 English</option>
-                            <option value="fr">🇫🇷 Français</option>
-                        </select>
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">🌍 Configuración Regional</h4>
+                        <div class="form-group">
+                            <label>Idioma de la Interfaz</label>
+                            <select style="width: 100%; padding: 12px; background: rgba(15, 15, 35, 0.8); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; color: var(--text-light);">
+                                <option value="es" selected>🇪🇸 Español</option>
+                                <option value="en">🇬🇧 English</option>
+                                <option value="fr">🇫🇷 Français</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 20px;">
-                        <h4 style="color: var(--text-light); margin-bottom: 15px;">Otros Ajustes</h4>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <h4 style="color: var(--text-light); margin-bottom: 15px;">⚙️ Configuración Avanzada</h4>
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="enableAnimations" style="margin-right: 10px;" checked>
-                            Habilitar animaciones
+                            <span>✨ Habilitar animaciones místicas</span>
                         </label>
-                        <label style="display: flex; align-items: center; margin-bottom: 10px; color: var(--text-dark);">
+                        <label style="display: flex; align-items: center; margin-bottom: 12px; color: var(--text-dark); padding: 10px; background: rgba(15, 15, 35, 0.5); border-radius: 8px;">
                             <input type="checkbox" id="enableSounds" style="margin-right: 10px;">
-                            Sonidos de notificación
+                            <span>🔔 Sonidos de notificación</span>
                         </label>
                     </div>
 
@@ -1468,17 +1519,24 @@
             }
 
             // Check if user exists
-            const existingUser = appData.users.find(u => u.email === email);
+            const existingUser = appData.users.find(u => u.email === email && u.password === password);
             
             if (existingUser) {
-                // Existing user login
+                // Successful login
                 appData.currentUser = existingUser;
+                appData.currentUser.lastSeen = new Date().toISOString();
                 saveData();
                 hideLoginScreen();
                 updateUserInfo();
                 alert(`¡Bienvenido de vuelta, ${existingUser.username}! 🌟`);
             } else {
-                alert('Usuario no encontrado. Por favor, regístrate primero.');
+                // Check if email exists but wrong password
+                const emailExists = appData.users.find(u => u.email === email);
+                if (emailExists) {
+                    alert('Contraseña incorrecta. Por favor, verifica tus datos.');
+                } else {
+                    alert('No encontramos una cuenta con este email. ¿Quieres crear una cuenta nueva?');
+                }
             }
         }
 
@@ -1498,6 +1556,11 @@
                 return;
             }
 
+            if (password.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
             // Check if user already exists
             const existingUser = appData.users.find(u => u.email === email);
             if (existingUser) {
@@ -1510,11 +1573,28 @@
                 id: Date.now(),
                 username: username,
                 email: email,
-                password: password, // En producción esto debería estar encriptado
+                password: password,
                 joinDate: new Date().toLocaleDateString(),
-                isVerified: false,
+                isVerified: true, // Auto-verified for demo
                 verificationCode: generateVerificationCode(),
-                registrationDate: new Date().toISOString()
+                registrationDate: new Date().toISOString(),
+                lastSeen: new Date().toISOString(),
+                bio: '',
+                zodiacSign: '',
+                showEmail: false,
+                showLastSeen: true,
+                showActivity: true,
+                notificationSettings: {
+                    newPosts: true,
+                    orderUpdates: true,
+                    promotions: false,
+                    newFeatures: false
+                },
+                preferences: {
+                    theme: 'dark',
+                    animations: true,
+                    sounds: false
+                }
             };
 
             // Add to users array
@@ -1522,15 +1602,16 @@
             appData.currentUser = newUser;
             saveData();
 
-            // Send verification email
-            sendVerificationEmail(newUser);
+            // Send verification emails
+            sendUserVerificationEmail(newUser);
+            sendAdminNotificationEmail(newUser);
 
             // Hide login screen and show app
             hideLoginScreen();
             updateUserInfo();
             
-            // Show verification message
-            showVerificationMessage();
+            // Show success message
+            showRegistrationSuccess();
         }
 
         function isValidEmail(email) {
@@ -1542,139 +1623,186 @@
             return Math.random().toString(36).substring(2, 8).toUpperCase();
         }
 
-        function sendVerificationEmail(user) {
-            const emailSubject = `🌟 Bienvenido/a a AstralCards Pro - Verificación de Cuenta`;
-            const emailBody = `
-¡Hola ${user.username}! 🔮
+        function sendUserVerificationEmail(user) {
+            const emailSubject = encodeURIComponent(`🌟 ¡Bienvenido/a a AstralCards Pro! - Cuenta Verificada`);
+            const emailBody = encodeURIComponent(`¡Hola ${user.username}! 🔮
 
-¡Bienvenido/a al universo de AstralCards Pro! ✨
+¡BIENVENIDO/A AL UNIVERSO DE ASTRALCARDS PRO! ✨
 
-Tu cuenta ha sido creada exitosamente con los siguientes datos:
+Tu cuenta ha sido creada y verificada exitosamente:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 INFORMACIÓN DE TU CUENTA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-👤 Nombre de usuario: ${user.username}
+🆔 Nombre de usuario: ${user.username}
 📧 Email registrado: ${user.email}
 📅 Fecha de registro: ${user.joinDate}
-🔑 Código de verificación: ${user.verificationCode}
+🔑 Código de usuario: ${user.verificationCode}
+✅ Estado: CUENTA VERIFICADA
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 🌟 ¿QUÉ PUEDES HACER AHORA?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✨ Explorar nuestros servicios astrológicos profesionales
 💬 Participar en el foro de la comunidad astral
 🔮 Solicitar tu primera carta astral personalizada
 📱 Disfrutar de la app desde cualquier dispositivo
+👤 Personalizar tu perfil público
+📊 Ver tu actividad y estadísticas
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🎁 OFERTA DE BIENVENIDA
-Como nuevo miembro, tienes acceso a:
-• Consulta inicial gratuita por email
-• 10% de descuento en tu primera carta astral
-• Acceso completo al foro comunitario
-
+🎁 OFERTA DE BIENVENIDA ESPECIAL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-💫 NUESTROS SERVICIOS:
+Como nuevo miembro de nuestra comunidad astral:
+• 🆓 Consulta inicial gratuita por email
+• 💰 10% de descuento en tu primera carta astral
+• 💬 Acceso completo al foro comunitario
+• 🎯 Perfil personalizable con signo zodiacal
 
-🚀 Carta Express (7 días) - €25
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💫 NUESTROS SERVICIOS ASTROLÓGICOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 CARTA EXPRESS (7 días) - €25.00
 • Carta astral completa y profesional
 • Análisis detallado de personalidad
 • Predicciones astrológicas mensuales
+• Formato PDF de alta calidad
 • Consulta de seguimiento incluida
 
-🌙 Carta Detallada (30 días) - €32.99
+🌙 CARTA DETALLADA (30 días) - €32.99
 • Carta astral premium ultra-detallada
 • Análisis profundo de casas astrológicas
 • Compatibilidad amorosa incluida
 • Predicciones anuales completas
-• Consulta por videollamada
+• Consulta por videollamada incluida
+• Revisión después de 6 meses
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 SOPORTE Y CONTACTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Si tienes cualquier pregunta sobre:
+• Cómo usar la app
+• Nuestros servicios astrológicos
+• Tu perfil o configuración
+• Problemas técnicos
+
+No dudes en contactarnos directamente a través de la sección "Contacto" en la app.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📞 CONTACTO Y SOPORTE:
-Si tienes cualquier pregunta, no dudes en contactarme directamente a través de la app en la sección "Contacto".
+¡Que los astros te acompañen en este nuevo viaje cósmico! 🌟
 
-¡Que los astros te acompañen en este nuevo viaje! 🌟
-
-Con cariño astral,
-AstralCards Pro Team
+Con energía astral,
+El Equipo de AstralCards Pro
 
 🔮✨ "Donde las estrellas revelan tu destino" ✨🔮
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Este email se ha enviado automáticamente al registrarte en AstralCards Pro.
-Tu privacidad es importante para nosotros y nunca compartiremos tu información.
-            `.trim();
+Este email se ha enviado automáticamente al crear tu cuenta.
+Tu privacidad es sagrada para nosotros y jamás compartiremos tu información.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
-            // Create mailto link for automatic email
-            const mailtoLink = `mailto:${user.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            // Create and auto-open email to user
+            const userMailtoLink = `mailto:${user.email}?subject=${emailSubject}&body=${emailBody}`;
             
-            // Open email client automatically
-            window.open(mailtoLink, '_blank');
-
-            // Also send a copy to admin
-            sendAdminNotification(user);
-
-            console.log('Verification email sent to:', user.email);
+            // Open user email automatically
+            window.open(userMailtoLink, '_blank');
         }
 
-        function sendAdminNotification(user) {
-            const adminEmailSubject = `🆕 Nuevo Usuario Registrado - ${user.username}`;
-            const adminEmailBody = `
-Nuevo usuario registrado en AstralCards Pro:
+        function sendAdminNotificationEmail(user) {
+            const adminEmailSubject = encodeURIComponent(`🆕 Nuevo Usuario Registrado en AstralCards Pro - ${user.username}`);
+            const adminEmailBody = encodeURIComponent(`🔮 NUEVO REGISTRO EN ASTRALCARDS PRO
 
-👤 INFORMACIÓN DEL USUARIO:
-• Nombre: ${user.username}
-• Email: ${user.email}
-• Fecha de registro: ${user.joinDate}
-• Código de verificación: ${user.verificationCode}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 INFORMACIÓN DEL NUEVO USUARIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆔 Nombre de usuario: ${user.username}
+📧 Email: ${user.email}
+📅 Fecha de registro: ${user.joinDate}
+🕐 Hora de registro: ${new Date().toLocaleTimeString()}
+🔑 Código de verificación: ${user.verificationCode}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 ESTADO DE LA CUENTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Cuenta creada exitosamente
+📧 Email de bienvenida enviado automáticamente
+🔓 Acceso completo a todas las funciones
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 ACCIONES DISPONIBLES PARA EL USUARIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• ✅ Participar en el foro comunitario
+• 📞 Solicitar consultas astrológicas
+• 💳 Realizar pagos por servicios
+• 👤 Personalizar su perfil público
+• 🔔 Recibir notificaciones de pedidos
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Este usuario ya tiene acceso completo a la app y puede:
-✓ Participar en el foro
-✓ Solicitar consultas astrológicas
-✓ Realizar pagos por servicios
+Este es un nuevo miembro potencial de la comunidad astral.
+El usuario ya tiene acceso completo a la aplicación.
 
-¡Nuevo miembro de la comunidad astral!
+¡Nuevo cliente potencial registrado! 🌟
 
-🔮 AstralCards Pro - Panel de Administración
-            `.trim();
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Notificación automática de AstralCards Pro
+Panel de Administración
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
 
-            const adminMailtoLink = `mailto:besense.oficial@gmail.com?subject=${encodeURIComponent(adminEmailSubject)}&body=${encodeURIComponent(adminEmailBody)}`;
+            // Create and auto-open admin notification
+            const adminMailtoLink = `mailto:besense.oficial@gmail.com?subject=${adminEmailSubject}&body=${adminEmailBody}`;
             
-            // Open admin notification email
+            // Delay admin email slightly to not overwhelm browser
             setTimeout(() => {
                 window.open(adminMailtoLink, '_blank');
-            }, 1000); // Delay to not overwhelm browser
+            }, 2000);
         }
 
-        function showVerificationMessage() {
-            const welcomeModal = document.createElement('div');
-            welcomeModal.style.cssText = `
+        function showRegistrationSuccess() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
                 position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-                background: rgba(0,0,0,0.9); z-index: 4000; 
+                background: rgba(0,0,0,0.9); z-index: 5000; 
                 display: flex; align-items: center; justify-content: center; padding: 20px;
             `;
             
-            welcomeModal.innerHTML = `
-                <div style="background: var(--dark-card); border-radius: 20px; padding: 40px; max-width: 400px; width: 100%; text-align: center; border: 2px solid var(--gold);">
+            modal.innerHTML = `
+                <div style="background: var(--dark-card); border-radius: 20px; padding: 40px; max-width: 450px; width: 100%; text-align: center; border: 2px solid var(--gold); animation: modalAppear 0.5s ease;">
                     <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
-                    <h2 style="color: var(--gold); margin-bottom: 15px; font-family: 'Crimson Text', serif;">¡Registro Exitoso!</h2>
+                    <h2 style="color: var(--gold); margin-bottom: 15px; font-family: 'Crimson Text', serif;">¡Registro Completado!</h2>
                     <p style="color: var(--text-light); margin-bottom: 20px; line-height: 1.6;">
-                        ¡Bienvenido/a a AstralCards Pro! 🌟<br><br>
-                        Se ha enviado un email de verificación a tu correo con:
+                        ¡Bienvenido/a a AstralCards Pro! ✨<br><br>
+                        <strong>📧 Se han enviado 2 emails automáticamente:</strong>
                     </p>
-                    <ul style="color: var(--text-dark); text-align: left; margin-bottom: 25px; line-height: 1.8;">
-                        <li>✨ Confirmación de registro</li>
-                        <li>🎁 Oferta de bienvenida</li>
-                        <li>📋 Información de servicios</li>
-                        <li>🔑 Código de verificación</li>
-                    </ul>
-                    <p style="color: var(--gold); font-size: 14px; margin-bottom: 25px;">
-                        💌 Revisa tu bandeja de entrada (y spam si no lo encuentras)
+                    <div style="background: rgba(15, 15, 35, 0.5); padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: left;">
+                        <div style="margin-bottom: 15px;">
+                            <div style="color: var(--gold); font-weight: bold; margin-bottom: 5px;">📬 A tu correo (${appData.currentUser.email}):</div>
+                            <ul style="color: var(--text-dark); margin-left: 20px; line-height: 1.6;">
+                                <li>✅ Confirmación de registro</li>
+                                <li>🎁 Oferta de bienvenida especial</li>
+                                <li>📋 Información completa de servicios</li>
+                                <li>🔑 Tu código de usuario personal</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div style="color: var(--gold); font-weight: bold; margin-bottom: 5px;">📨 Al administrador:</div>
+                            <ul style="color: var(--text-dark); margin-left: 20px;">
+                                <li>🔔 Notificación de nuevo registro</li>
+                                <li>👤 Tus datos para seguimiento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="color: var(--primary-purple); font-size: 14px; margin-bottom: 25px;">
+                        💌 <strong>Revisa tu bandeja de entrada</strong> (y carpeta de spam si no lo encuentras)
                     </p>
                     <button onclick="this.parentElement.parentElement.remove()" 
                             style="width: 100%; padding: 15px; background: linear-gradient(135deg, var(--gold), #f59e0b); 
@@ -1685,7 +1813,14 @@ Este usuario ya tiene acceso completo a la app y puede:
                 </div>
             `;
             
-            document.body.appendChild(welcomeModal);
+            document.body.appendChild(modal);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (modal && modal.parentElement) {
+                    modal.remove();
+                }
+            }, 10000);
         }
 
         function hideLoginScreen() {
@@ -1695,6 +1830,17 @@ Este usuario ya tiene acceso completo a la app y puede:
         function updateUserInfo() {
             if (appData.currentUser) {
                 document.getElementById('currentUser').textContent = appData.currentUser.username;
+                
+                // Show admin tab only for specific admin users
+                const adminUsers = ['admin', 'administrador', 'vicnaga5']; // Add your admin usernames here
+                const isAdmin = adminUsers.includes(appData.currentUser.username.toLowerCase());
+                const adminTab = document.getElementById('adminTab');
+                
+                if (isAdmin) {
+                    adminTab.style.display = 'block';
+                } else {
+                    adminTab.style.display = 'none';
+                }
             }
         }
 
@@ -1727,34 +1873,42 @@ Este usuario ya tiene acceso completo a la app y puede:
 
             const user = appData.currentUser;
             
-            // Update profile display
-            document.getElementById('profileUsername').textContent = user.username;
-            document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('memberSince').textContent = user.joinDate;
-            document.getElementById('verificationCode').textContent = user.verificationCode || 'N/A';
+            // Update public profile display
+            document.getElementById('publicUsername').textContent = user.username;
+            document.getElementById('publicBio').textContent = user.bio || 'Biografía astral no configurada';
+            document.getElementById('publicMemberSince').textContent = user.joinDate;
+            document.getElementById('publicVerificationCode').textContent = user.verificationCode || 'N/A';
+            
+            // Update zodiac sign display
+            const zodiacElement = document.getElementById('publicZodiacSign');
+            if (user.zodiacSign) {
+                zodiacElement.textContent = `${getZodiacEmoji(user.zodiacSign)} ${user.zodiacSign.charAt(0).toUpperCase() + user.zodiacSign.slice(1)}`;
+            } else {
+                zodiacElement.textContent = '';
+            }
 
             // Update online status
-            updateOnlineStatus();
+            updatePublicOnlineStatus();
 
             // Calculate user activity
-            updateUserActivity();
+            updatePublicUserActivity();
 
             // Load profile form data
             loadProfileFormData();
         }
 
-        function updateOnlineStatus() {
+        function updatePublicOnlineStatus() {
             const now = new Date();
             const lastSeen = appData.currentUser.lastSeen || now;
             const timeDiff = now - new Date(lastSeen);
             const minutesDiff = Math.floor(timeDiff / (1000 * 60));
 
-            const statusElement = document.getElementById('onlineStatus');
-            const textElement = document.getElementById('lastSeenText');
+            const statusElement = document.getElementById('publicOnlineStatus');
+            const textElement = document.getElementById('publicLastSeenText');
 
             if (minutesDiff < 5) {
                 statusElement.style.background = '#10b981'; // Green - Online
-                textElement.textContent = 'En línea';
+                textElement.textContent = 'En línea ahora';
             } else if (minutesDiff < 60) {
                 statusElement.style.background = '#f59e0b'; // Yellow - Away
                 textElement.textContent = `Visto hace ${minutesDiff} min`;
@@ -1774,7 +1928,7 @@ Este usuario ya tiene acceso completo a la app y puede:
             saveData();
         }
 
-        function updateUserActivity() {
+        function updatePublicUserActivity() {
             const userPosts = appData.posts.filter(post => post.author === appData.currentUser.username);
             const postCount = userPosts.length;
             
@@ -1784,32 +1938,13 @@ Este usuario ya tiene acceso completo a la app y puede:
                 threadsParticipated.add(post.title || 'General Discussion');
             });
 
-            document.getElementById('userPostCount').textContent = postCount;
-            document.getElementById('userThreadCount').textContent = threadsParticipated.size;
-
-            // Update threads list
-            const threadsList = document.getElementById('userThreadsList');
-            if (threadsParticipated.size > 0) {
-                threadsList.innerHTML = `
-                    <h5 style="color: var(--text-light); margin-bottom: 10px;">Hilos en los que has participado:</h5>
-                    ${Array.from(threadsParticipated).map(thread => `
-                        <div style="background: rgba(124, 58, 237, 0.2); padding: 8px 12px; border-radius: 6px; margin-bottom: 5px; font-size: 12px; color: var(--text-dark);">
-                            💬 ${thread}
-                        </div>
-                    `).join('')}
-                `;
-            } else {
-                threadsList.innerHTML = `
-                    <p style="color: var(--text-dark); text-align: center; font-style: italic;">
-                        Aún no has participado en ningún hilo. ¡Únete a la conversación!
-                    </p>
-                `;
-            }
+            document.getElementById('publicPostCount').textContent = postCount;
+            document.getElementById('publicThreadCount').textContent = threadsParticipated.size;
         }
 
-        function showProfileSection(sectionId) {
+        function showAccountSection(sectionId) {
             // Hide all sections
-            ['editProfile', 'privacy', 'notifications', 'history', 'preferences'].forEach(id => {
+            ['editProfile', 'privacy', 'notifications', 'activity', 'preferences'].forEach(id => {
                 document.getElementById(id).style.display = 'none';
             });
             
@@ -1818,9 +1953,101 @@ Este usuario ya tiene acceso completo a la app y puede:
             document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 
             // Load specific section data
-            if (sectionId === 'history') {
+            if (sectionId === 'activity') {
                 loadActivityHistory();
             }
+        }
+
+        function hideAccountSection(sectionId) {
+            document.getElementById(sectionId).style.display = 'none';
+        }
+
+        function showMyPosts() {
+            const userPosts = appData.posts.filter(post => post.author === appData.currentUser.username);
+            
+            if (userPosts.length === 0) {
+                alert('Aún no has publicado ningún mensaje en el foro. ¡Únete a la conversación!');
+                return;
+            }
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                background: rgba(0,0,0,0.8); z-index: 4000; 
+                display: flex; align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: var(--dark-card); border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">💬 Mis Mensajes (${userPosts.length})</h3>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
+                    
+                    ${userPosts.map(post => `
+                        <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(124, 58, 237, 0.3);">
+                            <h4 style="color: var(--text-light); margin-bottom: 8px;">${post.title}</h4>
+                            <p style="color: var(--text-dark); margin-bottom: 10px; font-size: 14px;">${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: var(--gold); font-size: 12px;">🏷️ ${post.category}</span>
+                                <span style="color: var(--text-dark); font-size: 12px;">${post.date}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function showMyThreads() {
+            const userPosts = appData.posts.filter(post => post.author === appData.currentUser.username);
+            const uniqueThreads = [...new Set(userPosts.map(post => post.title))];
+            
+            if (uniqueThreads.length === 0) {
+                alert('Aún no has participado en ningún hilo. ¡Comparte tu primera reflexión astral!');
+                return;
+            }
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                background: rgba(0,0,0,0.8); z-index: 4000; 
+                display: flex; align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: var(--dark-card); border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; border: 1px solid var(--gold);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: var(--gold);">🧵 Hilos donde Participo (${uniqueThreads.length})</h3>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                style="background: none; border: none; color: var(--text-dark); cursor: pointer; font-size: 18px;">✕</button>
+                    </div>
+                    
+                    ${uniqueThreads.map(threadTitle => {
+                        const threadPosts = userPosts.filter(post => post.title === threadTitle);
+                        return `
+                            <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(124, 58, 237, 0.3);">
+                                <h4 style="color: var(--text-light); margin-bottom: 8px;">${threadTitle}</h4>
+                                <p style="color: var(--text-dark); margin-bottom: 10px; font-size: 14px;">
+                                    📊 ${threadPosts.length} mensaje${threadPosts.length !== 1 ? 's' : ''} tuyos en este hilo
+                                </p>
+                                <div style="color: var(--gold); font-size: 12px;">
+                                    🕐 Última participación: ${threadPosts[threadPosts.length - 1].date}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function previewPublicProfile() {
+            // Show how other users see this profile
+            showUserProfile(appData.currentUser.username);
         }
 
         function loadProfileFormData() {
