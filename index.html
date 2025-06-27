@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstralCards Pro - Cartas Astrales Profesionales</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=EUR"></script>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFzdHJhbENhcmRzIFBybyAtIENhcnRhcyBBc3RyYWxlcyIsCiAgInNob3J0X25hbWUiOiAiQXN0cmFsQ2FyZHMiLAogICJkZXNjcmlwdGlvbiI6ICJBcHAgcHJvZmVzaW9uYWwgZGUgY2FydGFzIGFzdHJhbGVzIHkgY29uc3VsdGFzIGFzdHJvbMOzZ2ljYXMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgInNjb3BlIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMGYyMyIsCiAgInRoZW1lX2NvbG9yIjogIiM3YzNhZWQiLAogICJjYXRlZ29yaWVzIjogWyJsaWZlc3R5bGUiLCAiZW50ZXJ0YWlubWVudCIsICJzcGlyaXR1YWxpdHkiXSwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhkcFpIUm9QU0kwT0RBaUlHaGxhV2RvZEQwaU5EZ3dJajQ4WTJseVkyeGxJR041UFNJeU5EQWlJR041UFNJME1EQWlJSEk5SWpFNE1DSWlJR1pwYkd3OUlpTTNZek5oWldRaUx6NDhZMmx5WTJ4bElHTjVQU0l5TkRBaUlHTjVQU0kwTURBaUlISTlJakUwTUNJaUlHWnBiR3c5SWlOVFJGY3lRVEVpTHo0OGRHVjRkQ0I0UFNJME1EQWlJSGs5SWpJeU1DSWlJSFJoZEdWRWJtRnRaWDhrY0hodWQyOHpaakl3SWlCbWFXeHNQU0lqWmpaWUgxTWlJSFJsZUhRdFlXNWphRzl5UFNKdGFXUmtiR1VpUGoxYU9UaEJaSDFNQ1M4K1BDOXpkbWMrIiwKICAgICAgInNpemVzIjogIjQ4MHg0ODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AstralCards">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c3aed;
+            --deep-purple: #5b21b6;
+            --dark-bg: #0f0f23;
+            --dark-card: #1a1a3a;
+            --gold: #fbbf24;
+            --gold-light: #fcd34d;
+            --text-light: #e5e7eb;
+            --text-dark: #9ca3af;
+            --accent-blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e1b4b 50%, var(--deep-purple) 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(26, 26, 58, 0.95);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(124, 58, 237, 0.3);
+            border-right: 1px solid rgba(124, 58, 237, 0.3);
+        }
+
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--deep-purple) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(26, 26, 58, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.3);
+        }
+
+        .login-card .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-card h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .login-card p {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--deep-purple));
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            color: var(--gold-light);
+            opacity: 0.9;
+        }
+
+        .user-info {
+            background: rgba(251, 191, 36, 0.1);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-top: 10px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(15, 15, 35, 0.8);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            color: var(--gold);
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .nav-tab:hover {
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .welcome-section {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(251, 191, 36, 0.1));
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+        }
+
+        .welcome-section .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-section h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .welcome-section p {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .service-cards {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .service-card {
+            background: rgba(26, 26, 58, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .service-card.recommended {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(124, 58, 237, 0.1));
+            position: relative;
+        }
+
+        .service-card.recommended::before {
+            content: "RECOMENDADO";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--dark-bg);
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .service-card h3 {
+            font-family: 'Crimson Text', serif;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .service-card .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--gold);
+            margin: 10px 0;
+        }
+
+        .service-card .delivery {
+            color: var(--text-dark);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .service-card .features {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .service-card .features li {
+            color: var(--text-dark);
+            font-size: 13px;
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .service-card .features li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--deep-purple));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark-bg);
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 10px 25px rgba(251, 191, 36, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(156, 163, 175, 0.2);
+            border: 1px solid rgba(156, 163, 175, 0.3);
+        }
+
+        .forum-post {
+            background: rgba(26, 26, 58, 0.8);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .forum-post:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .forum-post .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0;
+            background: none;
+            position: static;
+        }
+
+        .forum-post .author {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 14px;
+        }
+
+        .forum-post .date {
+            color: var(--text-dark);
+            font-size: 12px;
+        }
+
+        .forum-post .title {
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .forum-post .content {
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .forum-post .actions {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+        }
+
+        .forum-post .actions span {
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .forum-post .actions span:hover {
+            color: var(--gold);
+        }
+
+        .rating {
+            display: flex;
+            gap: 2px;
+            margin: 10px 0;
+        }
+
+        .star {
+            color: var(--gold);
+            font-size: 16px;
+        }
+
+        .star.empty {
+            color: rgba(251, 191, 36, 0.3);
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(251, 191, 36, 0.05));
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            font-family: 'Crimson Text', serif;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .contact-card p {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 20px;
+        }
+
+        .payment-content {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            text-align: center;
+        }
+
+        .payment-content h3 {
+            font-family: 'Crimson Text', serif;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .order-summary {
+            background: rgba(15, 15, 35, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .order-summary .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .order-summary .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: var(--gold);
+            font-size: 16px;
+            border-top: 1px solid rgba(124, 58, 237, 0.3);
+            padding-top: 10px;
+        }
+
+        .install-prompt {
+            background: linear-gradient(135deg, var(--primary-purple), var(--deep-purple));
+            color: white;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            border: 1px solid var(--gold);
+        }
+
+        .install-prompt.show {
+            display: block;
+        }
+
+        .mystical-border {
+            background: linear-gradient(45deg, var(--gold), var(--primary-purple), var(--gold));
+            padding: 2px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .mystical-border .inner {
+            background: var(--dark-card);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .login-card {
+                margin: 10px;
+                padding: 30px 20px;
+            }
+            
+            .nav-tab {
+                font-size: 10px;
+                padding: 12px 8px;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-symbol {
+            position: absolute;
+            color: rgba(251, 191, 36, 0.1);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating mystical elements -->
+    <div class="floating-elements">
+        <div class="floating-symbol" style="top: 10%; left: 10%; animation-delay: 0s;">✨</div>
+        <div class="floating-symbol" style="top: 20%; right: 15%; animation-delay: 1s;">🔮</div>
+        <div class="floating-symbol" style="top: 60%; left: 5%; animation-delay: 2s;">⭐</div>
+        <div class="floating-symbol" style="bottom: 20%; right: 10%; animation-delay: 3s;">🌙</div>
+        <div class="floating-symbol" style="bottom: 10%; left: 20%; animation-delay: 4s;">✨</div>
+    </div>
+
+    <!-- Stars background -->
+    <div class="stars-bg" id="starsContainer"></div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="logo">🔮</div>
+            <h1>AstralCards Pro</h1>
+            <p>Descubre los secretos del universo a través de las cartas astrales</p>
+            
+            <div class="form-group">
+                <label>Nombre de Usuario</label>
+                <input type="text" id="username" placeholder="Tu nombre de usuario">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            
+            <button class="btn btn-gold" onclick="login()">🌟 Acceder al Reino Astral</button>
+            <button class="btn btn-secondary" onclick="register()">Crear Nueva Cuenta</button>
+            
+            <p style="margin-top: 20px; font-size: 12px; color: var(--text-dark);">
+                Al acceder, aceptas nuestros términos y condiciones del servicio astrológico
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔮 AstralCards Pro</h1>
+            <p class="subtitle">Cartas Astrales Profesionales y Consultas Místicas</p>
+            <div class="user-info" id="userInfo">
+                Bienvenido/a, <span id="currentUser">Usuario</span> ✨
+            </div>
+        </div>
+
+        <div class="install-prompt" id="installPrompt">
+            <p>🌟 ¡Instala AstralCards en tu dispositivo para acceso directo al cosmos!</p>
+            <button class="btn btn-gold" onclick="installApp()">Instalar App</button>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('home')">🏠 Inicio</button>
+            <button class="nav-tab" onclick="showTab('services')">🔮 Servicios</button>
+            <button class="nav-tab" onclick="showTab('contact')">📞 Contacto</button>
+            <button class="nav-tab" onclick="showTab('forum')">💬 Foro</button>
+            <button class="nav-tab" onclick="showTab('orders')">📋 Pedidos</button>
+            <button class="nav-tab" onclick="showTab('admin')">⚙️ Admin</button>
+        </div>
+
+        <!-- Home Tab -->
+        <div id="home" class="tab-content active">
+            <div class="welcome-section">
+                <div class="icon">🌟</div>
+                <h2>Bienvenido al Universo Astral</h2>
+                <p>Descubre los misterios del cosmos a través de cartas astrales personalizadas, creadas con precisión astrológica y décadas de experiencia profesional.</p>
+            </div>
+
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 15px;">🔮 Servicios Astrológicos Profesionales</h3>
+                    <p style="color: var(--text-dark); margin-bottom: 15px;">
+                        Ofrecemos análisis astrológicos profesionales con más de 15 años de experiencia. 
+                        Cada carta astral es única y personalizada según tu fecha, hora y lugar de nacimiento, 
+                        con un trato familiar y cercano que caracteriza nuestro servicio.
+                    </p>
+                    <ul style="color: var(--text-dark); list-style: none;">
+                        <li>✨ Cartas natales completas y detalladas</li>
+                        <li>🌙 Análisis de compatibilidad astrológica</li>
+                        <li>⭐ Predicciones astrológicas anuales</li>
+                        <li>🔮 Consultas astrológicas personalizadas</li>
+                        <li>👨‍👩‍👧‍👦 Atención familiar y profesional</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 15px;">📊 Últimas Opiniones</h3>
+                    <div class="forum-post">
+                        <div class="header">
+                            <span class="author">Luna_Mistica</span>
+                            <span class="date">Hace 2 días</span>
+                        </div>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <div class="content">
+                            "Increíble precisión en mi carta astral. Todo lo que me dijo se está cumpliendo. Totalmente recomendado."
+                        </div>
+                    </div>
+                    
+                    <div class="forum-post">
+                        <div class="header">
+                            <span class="author">Astro_Seeker</span>
+                            <span class="date">Hace 5 días</span>
+                        </div>
+                        <div class="rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star empty">★</span>
+                        </div>
+                        <div class="content">
+                            "Excelente servicio, muy detallado y profesional. La entrega fue puntual."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Tab -->
+        <div id="services" class="tab-content">
+            <h2 style="font-family: 'Crimson Text', serif; text-align: center; margin-bottom: 25px; color: var(--gold);">
+                🔮 Nuestros Servicios Astrales
+            </h2>
+            
+            <div class="service-cards">
+                <div class="service-card recommended" onclick="selectService('express')">
+                    <h3>⚡ Carta Express</h3>
+                    <div class="price">€25.00</div>
+                    <div class="delivery">📅 Entrega: 7 días</div>
+                    <ul class="features">
+                        <li>Carta astral completa y profesional</li>
+                        <li>Análisis detallado de personalidad</li>
+                        <li>Predicciones astrológicas mensuales</li>
+                        <li>Formato PDF de alta calidad</li>
+                        <li>Consulta de seguimiento incluida</li>
+                    </ul>
+                    <button class="btn btn-gold">Solicitar Ahora</button>
+                </div>
+
+                <div class="service-card" onclick="selectService('standard')">
+                    <h3>🌙 Carta Detallada</h3>
+                    <div class="price">€32.99 <small style="font-size: 14px;">(€5 + €27.99)</small></div>
+                    <div class="delivery">📅 Entrega: 30 días</div>
+                    <ul class="features">
+                        <li>Carta astral premium</li>
+                        <li>Análisis profundo de casas</li>
+                        <li>Compatibilidad amorosa</li>
+                        <li>Predicciones anuales</li>
+                        <li>Consulta videollamada</li>
+                        <li>Revisión después de 6 meses</li>
+                    </ul>
+                    <button class="btn">Reservar con Señal</button>
+                </div>
+            </div>
+
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 15px;">
+                        ℹ️ Información Importante
+                    </h3>
+                    <ul style="color: var(--text-dark); list-style: none; line-height: 1.6;">
+                        <li>🕐 <strong>Horarios de consulta:</strong> Lunes a Viernes, 9:00 - 18:00</li>
+                        <li>💳 <strong>Pagos seguros:</strong> Procesados vía PayPal</li>
+                        <li>📧 <strong>Comunicación:</strong> Todas las consultas por la app</li>
+                        <li>🔄 <strong>Revisiones:</strong> Incluidas en ambos servicios</li>
+                        <li>🌟 <strong>Garantía:</strong> Satisfacción 100% asegurada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Tab -->
+        <div id="contact" class="tab-content">
+            <div class="contact-card">
+                <h3>📞 Contacto Directo</h3>
+                <p>Ponte en contacto conmigo para discutir tu carta astral personalizada. Trabajaremos juntos para definir tus necesidades específicas y acordar los detalles de tu consulta.</p>
+            </div>
+
+            <form id="contactForm">
+                <div class="form-group">
+                    <label>🌟 Tipo de Consulta</label>
+                    <select id="consultationType">
+                        <option value="">Selecciona el tipo de consulta</option>
+                        <option value="natal">Carta Natal Completa</option>
+                        <option value="compatibility">Compatibilidad de Pareja</option>
+                        <option value="yearly">Predicciones Anuales</option>
+                        <option value="specific">Consulta Específica</option>
+                        <option value="custom">Personalizada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📅 Fecha de Nacimiento</label>
+                    <input type="date" id="birthDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>🕐 Hora de Nacimiento (si la conoces)</label>
+                    <input type="time" id="birthTime" placeholder="Aproximada si no estás seguro/a">
+                </div>
+
+                <div class="form-group">
+                    <label>📍 Lugar de Nacimiento</label>
+                    <input type="text" id="birthPlace" placeholder="Ciudad, País" required>
+                </div>
+
+                <div class="form-group">
+                    <label>💰 Modalidad de Pago Preferida</label>
+                    <select id="paymentMode">
+                        <option value="express">Express - €25 (7 días)</option>
+                        <option value="standard">Detallada - €5 señal + €27.99 final (30 días)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Preguntas Específicas o Comentarios</label>
+                    <textarea id="specificQuestions" placeholder="Cuéntame qué aspectos de tu vida te interesan más: amor, trabajo, salud, familia, etc."></textarea>
+                </div>
+
+                <button type="button" class="btn btn-gold" onclick="submitContact()">
+                    🚀 Enviar Solicitud de Consulta
+                </button>
+            </form>
+
+            <div class="mystical-border" style="margin-top: 25px;">
+                <div class="inner">
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 15px;">
+                        🔮 Proceso de Trabajo
+                    </h3>
+                    <ol style="color: var(--text-dark); padding-left: 20px; line-height: 1.8;">
+                        <li>Envías tu solicitud con datos de nacimiento</li>
+                        <li>Te contacto en 24h para confirmar detalles</li>
+                        <li>Acordamos fecha de entrega y modalidad de pago</li>
+                        <li>Realizas el pago según modalidad elegida</li>
+                        <li>Inicio el trabajo en tu carta astral</li>
+                        <li>Recibes tu carta completa en fecha acordada</li>
+                        <li>Consulta de seguimiento incluida</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forum Tab -->
+        <div id="forum" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-family: 'Crimson Text', serif; color: var(--gold);">💬 Foro Astral</h2>
+                <button class="btn btn-gold" onclick="showNewPostForm()" style="width: auto; padding: 10px 15px;">+ Nuevo Post</button>
+            </div>
+
+            <div id="newPostForm" style="display: none;" class="mystical-border">
+                <div class="inner">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">✨ Crear Nuevo Post</h3>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="postTitle" placeholder="Título de tu post">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="postCategory">
+                            <option value="general">General</option>
+                            <option value="experiences">Experiencias</option>
+                            <option value="questions">Preguntas</option>
+                            <option value="reviews">Opiniones</option>
+                            <option value="predictions">Predicciones</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido</label>
+                        <textarea id="postContent" placeholder="Comparte tu experiencia, pregunta o reflexión astral..."></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-gold" onclick="createPost()">Publicar</button>
+                        <button class="btn btn-secondary" onclick="hideNewPostForm()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="forumPosts">
+                <div class="forum-post">
+                    <div class="header">
+                        <span class="author">Cosmic_Reader</span>
+                        <span class="date">Hace 1 hora</span>
+                    </div>
+                    <div class="title">¿Cómo interpretar la Luna en Casa 7?</div>
+                    <div class="content">
+                        Hola a todos, tengo la Luna en Casa 7 en mi carta natal y me gustaría entender mejor cómo esto afecta mis relaciones. ¿Alguien más tiene esta posición?
+                    </div>
+                    <div class="actions">
+                        <span onclick="likePost(1)">👍 12 likes</span>
+                        <span onclick="showComments(1)">💬 5 comentarios</span>
+                        <span>🏷️ Preguntas</span>
+                    </div>
+                </div>
+
+                <div class="forum-post">
+                    <div class="header">
+                        <span class="author">StarSeeker_Ana</span>
+                        <span class="date">Hace 3 horas</span>
+                    </div>
+                    <div class="title">Mi experiencia con la carta astral - ⭐⭐⭐⭐⭐</div>
+                    <div class="content">
+                        Increíble lo precisa que fue mi carta astral. Todo lo relacionado con mi carrera profesional se está manifestando exactamente como se predijo. ¡Muy recomendado el servicio!
+                    </div>
+                    <div class="actions">
+                        <span onclick="likePost(2)">👍 28 likes</span>
+                        <span onclick="showComments(2)">💬 15 comentarios</span>
+                        <span>🏷️ Opiniones</span>
+                    </div>
+                </div>
+
+                <div class="forum-post">
+                    <div class="header">
+                        <span class="author">MysticJourney</span>
+                        <span class="date">Hace 1 día</span>
+                    </div>
+                    <div class="title">Mercurio Retrógrado en Géminis - Efectos</div>
+                    <div class="content">
+                        ¿Alguien más está sintiendo los efectos de Mercurio retrógrado? Problemas de comunicación por todos lados. Compartan sus experiencias...
+                    </div>
+                    <div class="actions">
+                        <span onclick="likePost(3)">👍 45 likes</span>
+                        <span onclick="showComments(3)">💬 32 comentarios</span>
+                        <span>🏷️ General</span>
+                    </div>
+                </div>
+
+                <div class="forum-post">
+                    <div class="header">
+                        <span class="author">LunarChild</span>
+                        <span class="date">Hace 2 días</span>
+                    </div>
+                    <div class="title">Predicción cumplida - Cambio de trabajo</div>
+                    <div class="content">
+                        En mi carta de enero me dijeron que habría un cambio laboral importante en abril. ¡Acabo de conseguir el trabajo de mis sueños! La astrología realmente funciona.
+                    </div>
+                    <div class="actions">
+                        <span onclick="likePost(4)">👍 67 likes</span>
+                        <span onclick="showComments(4)">💬 23 comentarios</span>
+                        <span>🏷️ Experiencias</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <h2 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 20px;">📋 Mis Pedidos</h2>
+
+            <div class="mystical-border">
+                <div class="inner">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: var(--text-light);">Pedido #001</h3>
+                        <span style="background: var(--gold); color: var(--dark-bg); padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: bold;">
+                            EN PROCESO
+                        </span>
+                    </div>
+                    <p style="color: var(--text-dark); margin-bottom: 10px;">
+                        <strong>Servicio:</strong> Carta Express<br>
+                        <strong>Fecha del pedido:</strong> 15 Junio 2025<br>
+                        <strong>Entrega estimada:</strong> 22 Junio 2025<br>
+                        <strong>Precio:</strong> €25.00
+                    </p>
+                    <div style="background: rgba(15, 15, 35, 0.5); border-radius: 8px; padding: 10px; margin-top: 15px;">
+                        <small style="color: var(--text-dark);">
+                            📧 Te notificaremos por email cuando tu carta astral esté lista. 
+                            Tiempo restante aproximado: 3-4 días.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-dark);">
+                <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;">🔮</div>
+                <p>No tienes más pedidos. ¡Solicita tu próxima carta astral!</p>
+                <button class="btn btn-gold" onclick="showTab('services')" style="margin-top: 15px; width: auto; padding: 12px 25px;">
+                    Ver Servicios
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Tab -->
+        <div id="admin" class="tab-content">
+            <h2 style="font-family: 'Crimson Text', serif; color: var(--gold); margin-bottom: 20px;">⚙️ Panel de Administración</h2>
+
+            <!-- Templates de Respuesta -->
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">📝 Templates de Respuesta</h3>
+                    <div style="display: grid; gap: 10px; margin-bottom: 20px;">
+                        <button class="btn btn-gold" onclick="generateTemplate('confirmation')" style="width: auto; padding: 10px 15px;">
+                            ✅ Template Confirmación
+                        </button>
+                        <button class="btn btn-gold" onclick="generateTemplate('progress')" style="width: auto; padding: 10px 15px;">
+                            ⏳ Template En Progreso
+                        </button>
+                        <button class="btn btn-gold" onclick="generateTemplate('delivery')" style="width: auto; padding: 10px 15px;">
+                            📨 Template Entrega
+                        </button>
+                        <button class="btn btn-gold" onclick="generateTemplate('followup')" style="width: auto; padding: 10px 15px;">
+                            🔄 Template Seguimiento
+                        </button>
+                    </div>
+                    <div id="templateOutput" style="background: rgba(15, 15, 35, 0.5); border-radius: 8px; padding: 15px; border: 1px solid rgba(124, 58, 237, 0.3); display: none;">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Template Generado:</h4>
+                        <div id="templateContent" style="color: var(--text-dark); white-space: pre-wrap; line-height: 1.6;"></div>
+                        <button class="btn btn-secondary" onclick="copyTemplate()" style="margin-top: 15px; width: auto; padding: 8px 15px;">
+                            📋 Copiar Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestión de Pedidos -->
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">📊 Gestión de Pedidos</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.3); text-align: center;">
+                            <h4 style="color: var(--gold); margin-bottom: 10px;">Pedidos Pendientes</h4>
+                            <div style="font-size: 24px; color: var(--text-light); font-weight: bold;" id="pendingOrders">0</div>
+                        </div>
+                        <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.3); text-align: center;">
+                            <h4 style="color: var(--gold); margin-bottom: 10px;">Ingresos del Mes</h4>
+                            <div style="font-size: 24px; color: var(--text-light); font-weight: bold;" id="monthlyRevenue">€0</div>
+                        </div>
+                    </div>
+
+                    <div id="adminOrdersList">
+                        <!-- Orders will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sistema de Devoluciones -->
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">💰 Sistema de Devoluciones</h3>
+                    
+                    <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.3); margin-bottom: 15px;">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Política de Devoluciones</h4>
+                        <ul style="color: var(--text-dark); list-style: none; line-height: 1.6;">
+                            <li>🔸 <strong>Hasta 24h después del pago:</strong> Devolución completa</li>
+                            <li>🔸 <strong>Trabajo iniciado:</strong> Devolución del 50%</li>
+                            <li>🔸 <strong>Trabajo entregado:</strong> No aplica devolución</li>
+                            <li>🔸 <strong>Insatisfacción justificada:</strong> Reembolso a criterio</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🔍 Buscar Pedido para Devolución</label>
+                        <input type="text" id="refundOrderId" placeholder="ID del pedido o email del cliente">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>💵 Monto a Devolver</label>
+                        <input type="number" id="refundAmount" placeholder="Cantidad en euros" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📝 Motivo de la Devolución</label>
+                        <select id="refundReason">
+                            <option value="">Seleccionar motivo</option>
+                            <option value="client_request">Solicitud del cliente (24h)</option>
+                            <option value="unsatisfied">Cliente insatisfecho</option>
+                            <option value="error">Error en el pedido</option>
+                            <option value="technical">Problema técnico</option>
+                            <option value="other">Otro motivo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📄 Notas Adicionales</label>
+                        <textarea id="refundNotes" placeholder="Detalles adicionales sobre la devolución..."></textarea>
+                    </div>
+
+                    <button class="btn btn-gold" onclick="processRefund()">
+                        💸 Procesar Devolución
+                    </button>
+                </div>
+            </div>
+
+            <!-- Consultas Pendientes -->
+            <div class="mystical-border">
+                <div class="inner">
+                    <h3 style="color: var(--text-light); margin-bottom: 15px;">📋 Consultas Pendientes</h3>
+                    <div id="adminConsultationsList">
+                        <!-- Consultations will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="payment-modal" style="display: none;">
+        <div class="payment-content">
+            <h3>💳 Procesar Pago</h3>
+            <div class="order-summary" id="orderSummary">
+                <!-- Order details will be populated here -->
+            </div>
+            <div id="paypal-button-container"></div>
+            <button class="btn btn-secondary" onclick="closePaymentModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const PAYPAL_EMAIL = "vicnaga5@hotmail.com";
+        
+        // App state
+        let currentUser = null;
+        let selectedService = null;
+        let appData = {
+            users: [],
+            posts: [],
+            orders: [],
+            consultations: [],
+            refunds: [],
+            currentUser: null
+        };
+
+        // PWA installation
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').classList.add('show');
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('installPrompt').classList.remove('show');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Initialize app
+        window.addEventListener('load', () => {
+            createStars();
+            loadData();
+            if (appData.currentUser) {
+                hideLoginScreen();
+                updateUserInfo();
+            }
+        });
+
+        // Create mystical stars background
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Authentication functions
+        function login() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !email || !password) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            // Simple validation for demo
+            appData.currentUser = {
+                username: username,
+                email: email,
+                joinDate: new Date().toLocaleDateString()
+            };
+
+            saveData();
+            hideLoginScreen();
+            updateUserInfo();
+        }
+
+        function register() {
+            alert('Función de registro: En una versión completa, aquí se registraría el usuario en la base de datos.');
+            login(); // For demo purposes
+        }
+
+        function hideLoginScreen() {
+            document.getElementById('loginScreen').style.display = 'none';
+        }
+
+        function updateUserInfo() {
+            if (appData.currentUser) {
+                document.getElementById('currentUser').textContent = appData.currentUser.username;
+            }
+        }
+
+        // Tab management
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Update admin dashboard when admin tab is opened
+            if (tabName === 'admin') {
+                updateAdminDashboard();
+            }
+        }
+
+        // Service selection
+        function selectService(serviceType) {
+            selectedService = serviceType;
+            
+            const services = {
+                'express': {
+                    name: 'Carta Express',
+                    price: 25.00,
+                    delivery: '7 días',
+                    description: 'Carta astral completa con análisis personalizado'
+                },
+                'standard': {
+                    name: 'Carta Detallada',
+                    price: 5.00, // Initial payment
+                    finalPrice: 27.99,
+                    totalPrice: 32.99,
+                    delivery: '30 días',
+                    description: 'Carta astral premium con análisis profundo'
+                }
+            };
+
+            const service = services[serviceType];
+            showPaymentModal(service);
+        }
+
+        function showPaymentModal(service) {
+            const modal = document.getElementById('paymentModal');
+            const summary = document.getElementById('orderSummary');
+            
+            let summaryHTML = `
+                <div class="item">
+                    <span>Servicio:</span>
+                    <span>${service.name}</span>
+                </div>
+                <div class="item">
+                    <span>Entrega:</span>
+                    <span>${service.delivery}</span>
+                </div>
+            `;
+
+            if (service.finalPrice) {
+                summaryHTML += `
+                    <div class="item">
+                        <span>Pago inicial (señal):</span>
+                        <span>€${service.price.toFixed(2)}</span>
+                    </div>
+                    <div class="item">
+                        <span>Pago final:</span>
+                        <span>€${service.finalPrice.toFixed(2)}</span>
+                    </div>
+                    <div class="total">
+                        <span>Total del servicio:</span>
+                        <span>€${service.totalPrice.toFixed(2)}</span>
+                    </div>
+                    <div class="total">
+                        <span>A pagar ahora:</span>
+                        <span>€${service.price.toFixed(2)}</span>
+                    </div>
+                `;
+            } else {
+                summaryHTML += `
+                    <div class="total">
+                        <span>Total:</span>
+                        <span>€${service.price.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            summary.innerHTML = summaryHTML;
+            modal.style.display = 'flex';
+            
+            // Initialize PayPal button
+            initPayPalButton(service);
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            // Clear PayPal container
+            document.getElementById('paypal-button-container').innerHTML = '';
+        }
+
+        function initPayPalButton(service) {
+            const container = document.getElementById('paypal-button-container');
+            container.innerHTML = ''; // Clear previous buttons
+
+            // Create PayPal payment
+            const paymentAmount = service.finalPrice ? service.price : service.price;
+            const paymentDescription = service.finalPrice ? 
+                `${service.name} - Pago inicial (señal)` : 
+                service.name;
+
+            // For demo purposes, simulate PayPal payment
+            container.innerHTML = `
+                <button class="btn btn-gold" onclick="processPayment(${paymentAmount}, '${paymentDescription}')">
+                    💳 Pagar €${paymentAmount.toFixed(2)} con PayPal
+                </button>
+            `;
+        }
+
+        function processPayment(amount, description) {
+            // Simulate PayPal payment process
+            if (confirm(`¿Proceder con el pago de €${amount.toFixed(2)} para ${description}?`)) {
+                // Simulate successful payment
+                setTimeout(() => {
+                    alert('¡Pago procesado con éxito! Te contactaremos en las próximas 24 horas para confirmar los detalles de tu carta astral.');
+                    
+                    // Add order to user's orders
+                    const order = {
+                        id: Date.now(),
+                        service: selectedService,
+                        amount: amount,
+                        description: description,
+                        status: 'paid',
+                        date: new Date().toLocaleDateString(),
+                        estimatedDelivery: getEstimatedDelivery(selectedService)
+                    };
+                    
+                    appData.orders.push(order);
+                    saveData();
+                    
+                    closePaymentModal();
+                    showTab('orders');
+                }, 1000);
+            }
+        }
+
+        function getEstimatedDelivery(serviceType) {
+            const today = new Date();
+            const deliveryDays = serviceType === 'express' ? 7 : 30;
+            const deliveryDate = new Date(today.getTime() + (deliveryDays * 24 * 60 * 60 * 1000));
+            return deliveryDate.toLocaleDateString();
+        }
+
+        // Contact form
+        function submitContact() {
+            const formData = {
+                consultationType: document.getElementById('consultationType').value,
+                birthDate: document.getElementById('birthDate').value,
+                birthTime: document.getElementById('birthTime').value,
+                birthPlace: document.getElementById('birthPlace').value,
+                paymentMode: document.getElementById('paymentMode').value,
+                specificQuestions: document.getElementById('specificQuestions').value,
+                userEmail: appData.currentUser.email,
+                userName: appData.currentUser.username
+            };
+
+            if (!formData.consultationType || !formData.birthDate || !formData.birthPlace) {
+                alert('Por favor, completa los campos obligatorios (tipo de consulta, fecha y lugar de nacimiento)');
+                return;
+            }
+
+            // Send email notification
+            sendEmailNotification(formData);
+
+            alert('¡Solicitud enviada con éxito! Te contactaré en las próximas 24 horas para confirmar todos los detalles de tu consulta astral.');
+            
+            // Clear form
+            document.getElementById('contactForm').reset();
+        }
+
+        function sendEmailNotification(formData) {
+            // Create email content
+            const emailSubject = `Nueva Solicitud de Carta Astral - ${formData.userName}`;
+            const emailBody = `
+Nueva solicitud de consulta astral:
+
+👤 DATOS DEL CLIENTE:
+• Nombre: ${formData.userName}
+• Email: ${formData.userEmail}
+• Fecha de solicitud: ${new Date().toLocaleString()}
+
+🔮 DETALLES DE LA CONSULTA:
+• Tipo de consulta: ${formData.consultationType}
+• Fecha de nacimiento: ${formData.birthDate}
+• Hora de nacimiento: ${formData.birthTime || 'No especificada'}
+• Lugar de nacimiento: ${formData.birthPlace}
+• Modalidad de pago: ${formData.paymentMode}
+
+📝 PREGUNTAS ESPECÍFICAS:
+${formData.specificQuestions || 'Ninguna pregunta específica'}
+
+---
+Este email se ha enviado automáticamente desde AstralCards Pro.
+            `.trim();
+
+            // Create mailto link for email sending
+            const mailtoLink = `mailto:besense.oficial@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.open(mailtoLink, '_blank');
+
+            // Also save the consultation request in the app data
+            const consultation = {
+                id: Date.now(),
+                ...formData,
+                status: 'pending',
+                submittedAt: new Date().toISOString()
+            };
+
+            appData.consultations = appData.consultations || [];
+            appData.consultations.push(consultation);
+            saveData();
+
+            console.log('Consultation request saved:', consultation);
+        }
+
+        // Admin Templates
+        function generateTemplate(type) {
+            const templates = {
+                'confirmation': `Hola [NOMBRE],
+
+¡Gracias por confiar en nuestros servicios astrológicos! 🌟
+
+He recibido tu solicitud para [TIPO_CONSULTA] y confirmo los siguientes detalles:
+
+📅 Datos de nacimiento: [FECHA] a las [HORA] en [LUGAR]
+💰 Modalidad: [MODALIDAD_PAGO]
+⏰ Tiempo estimado de entrega: [TIEMPO_ENTREGA]
+
+Comenzaré a trabajar en tu carta astral en las próximas 24-48 horas. Te mantendré informado/a del progreso.
+
+Si tienes alguna pregunta adicional, no dudes en contactarme.
+
+Un abrazo astral,
+[TU_NOMBRE]
+
+✨ AstralCards Pro - Astrología seria y profesional`,
+
+                'progress': `Hola [NOMBRE],
+
+¡Tu carta astral está en progreso! 🔮
+
+Quería informarte que ya he comenzado a trabajar en tu análisis astrológico. Hasta ahora he completado:
+
+✅ Cálculo de posiciones planetarias
+✅ Análisis de casas astrológicas
+🔄 Interpretación personalizada (en progreso)
+⏳ Redacción final y formato
+
+Estimación de finalización: [FECHA_ESTIMADA]
+
+Tu carta astral será muy especial y detallada. ¡Vale la pena la espera!
+
+Saludos cósmicos,
+[TU_NOMBRE]
+
+🌙 AstralCards Pro`,
+
+                'delivery': `¡Hola [NOMBRE]!
+
+¡Tu carta astral está lista! 🌟✨
+
+Adjunto encontrarás tu análisis astrológico completo con:
+- Carta natal detallada
+- Interpretación personalizada de planetas y casas
+- Predicciones y consejos astrológicos
+- [CONTENIDO_ADICIONAL]
+
+Espero que disfrutes leyendo sobre los secretos que las estrellas revelan sobre ti.
+
+Recuerda que tienes incluida una consulta de seguimiento si tienes preguntas sobre tu carta.
+
+¡Que los astros te acompañen!
+
+Con cariño,
+[TU_NOMBRE]
+
+🔮 AstralCards Pro - Tu guía astral personal`,
+
+                'followup': `Hola [NOMBRE],
+
+Espero que hayas tenido tiempo de leer tu carta astral 🌙
+
+¿Cómo te ha parecido tu análisis astrológico? Me encantaría saber:
+
+• ¿Te has sentido identificado/a con la interpretación?
+• ¿Hay algún aspecto que te gustaría profundizar?
+• ¿Tienes preguntas sobre alguna predicción específica?
+
+Como parte del servicio, tienes derecho a una consulta de seguimiento gratuita. Podemos hacerla por:
+- Email (respuesta detallada)
+- WhatsApp (consulta rápida)
+- Videollamada (sesión de 15 min)
+
+¡También me haría muy feliz si pudieras dejar una reseña en el foro de la app!
+
+Bendiciones astrales,
+[TU_NOMBRE]
+
+⭐ AstralCards Pro`
+            };
+
+            const template = templates[type];
+            document.getElementById('templateContent').textContent = template;
+            document.getElementById('templateOutput').style.display = 'block';
+        }
+
+        function copyTemplate() {
+            const content = document.getElementById('templateContent').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Template copiado al portapapeles ✅');
+            });
+        }
+
+        // Admin Order Management
+        function updateAdminDashboard() {
+            // Update pending orders count
+            const pendingCount = appData.orders.filter(order => order.status === 'paid' || order.status === 'pending').length;
+            document.getElementById('pendingOrders').textContent = pendingCount;
+
+            // Calculate monthly revenue
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlyRevenue = appData.orders
+                .filter(order => {
+                    const orderDate = new Date(order.date);
+                    return orderDate.getMonth() === currentMonth && orderDate.getFullYear() === currentYear;
+                })
+                .reduce((total, order) => total + order.amount, 0);
+            document.getElementById('monthlyRevenue').textContent = `€${monthlyRevenue.toFixed(2)}`;
+
+            // Update orders list
+            updateAdminOrdersList();
+            updateAdminConsultationsList();
+        }
+
+        function updateAdminOrdersList() {
+            const container = document.getElementById('adminOrdersList');
+            const orders = appData.orders || [];
+
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-dark); text-align: center;">No hay pedidos registrados</p>';
+                return;
+            }
+
+            container.innerHTML = orders.map(order => `
+                <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.3); margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong style="color: var(--text-light);">Pedido #${order.id}</strong>
+                        <span style="background: var(--gold); color: var(--dark-bg); padding: 4px 8px; border-radius: 10px; font-size: 12px;">
+                            ${order.status.toUpperCase()}
+                        </span>
+                    </div>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Servicio:</strong> ${order.description}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Monto:</strong> €${order.amount.toFixed(2)}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Fecha:</strong> ${order.date}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Entrega estimada:</strong> ${order.estimatedDelivery}</p>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn btn-gold" onclick="updateOrderStatus(${order.id}, 'in_progress')" style="width: auto; padding: 8px 12px; font-size: 12px;">
+                            En Progreso
+                        </button>
+                        <button class="btn btn-gold" onclick="updateOrderStatus(${order.id}, 'completed')" style="width: auto; padding: 8px 12px; font-size: 12px;">
+                            Completado
+                        </button>
+                        <button class="btn btn-secondary" onclick="initiateRefund(${order.id})" style="width: auto; padding: 8px 12px; font-size: 12px;">
+                            Reembolsar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateAdminConsultationsList() {
+            const container = document.getElementById('adminConsultationsList');
+            const consultations = appData.consultations || [];
+
+            if (consultations.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-dark); text-align: center;">No hay consultas pendientes</p>';
+                return;
+            }
+
+            container.innerHTML = consultations.map(consultation => `
+                <div style="background: rgba(15, 15, 35, 0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.3); margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong style="color: var(--text-light);">${consultation.userName}</strong>
+                        <span style="color: var(--text-dark); font-size: 12px;">${new Date(consultation.submittedAt).toLocaleDateString()}</span>
+                    </div>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Email:</strong> ${consultation.userEmail}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Consulta:</strong> ${consultation.consultationType}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Nacimiento:</strong> ${consultation.birthDate} en ${consultation.birthPlace}</p>
+                    <p style="color: var(--text-dark); margin: 5px 0;"><strong>Modalidad:</strong> ${consultation.paymentMode}</p>
+                    ${consultation.specificQuestions ? `<p style="color: var(--text-dark); margin: 5px 0;"><strong>Preguntas:</strong> ${consultation.specificQuestions}</p>` : ''}
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn btn-gold" onclick="respondToConsultation(${consultation.id})" style="width: auto; padding: 8px 12px; font-size: 12px;">
+                            📧 Responder
+                        </button>
+                        <button class="btn btn-secondary" onclick="markConsultationProcessed(${consultation.id})" style="width: auto; padding: 8px 12px; font-size: 12px;">
+                            ✅ Marcar Procesada
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                saveData();
+                updateAdminDashboard();
+                alert(`Estado del pedido actualizado a: ${newStatus}`);
+            }
+        }
+
+        function initiateRefund(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                document.getElementById('refundOrderId').value = orderId;
+                document.getElementById('refundAmount').value = order.amount;
+                alert('Datos del pedido cargados en el formulario de devolución');
+            }
+        }
+
+        function processRefund() {
+            const orderId = document.getElementById('refundOrderId').value;
+            const amount = parseFloat(document.getElementById('refundAmount').value);
+            const reason = document.getElementById('refundReason').value;
+            const notes = document.getElementById('refundNotes').value;
+
+            if (!orderId || !amount || !reason) {
+                alert('Por favor, completa todos los campos obligatorios');
+                return;
+            }
+
+            const refund = {
+                id: Date.now(),
+                orderId: orderId,
+                amount: amount,
+                reason: reason,
+                notes: notes,
+                processedAt: new Date().toISOString(),
+                status: 'processed'
+            };
+
+            appData.refunds = appData.refunds || [];
+            appData.refunds.push(refund);
+
+            // Update order status
+            const order = appData.orders.find(o => o.id == orderId);
+            if (order) {
+                order.status = 'refunded';
+                order.refundAmount = amount;
+            }
+
+            saveData();
+            updateAdminDashboard();
+
+            alert(`Devolución procesada: €${amount.toFixed(2)}\nMotivo: ${reason}\n\nRecuerda procesar el reembolso en PayPal manualmente.`);
+
+            // Clear form
+            document.getElementById('refundOrderId').value = '';
+            document.getElementById('refundAmount').value = '';
+            document.getElementById('refundReason').value = '';
+            document.getElementById('refundNotes').value = '';
+        }
+
+        function respondToConsultation(consultationId) {
+            const consultation = appData.consultations.find(c => c.id === consultationId);
+            if (consultation) {
+                const emailSubject = `Re: Tu consulta astral - ${consultation.consultationType}`;
+                const emailBody = `Hola ${consultation.userName},
+
+Gracias por tu interés en nuestros servicios astrológicos.
+
+He revisado tu solicitud de ${consultation.consultationType} para tu fecha de nacimiento ${consultation.birthDate} en ${consultation.birthPlace}.
+
+[PERSONALIZA TU RESPUESTA AQUÍ]
+
+Para proceder con tu carta astral, necesitarías:
+1. Confirmar los datos de nacimiento
+2. Seleccionar la modalidad de pago
+3. Realizar el pago correspondiente
+
+¿Te gustaría proceder?
+
+Saludos astrales,
+[TU_NOMBRE]
+
+🔮 AstralCards Pro`;
+
+                const mailtoLink = `mailto:${consultation.userEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                window.open(mailtoLink, '_blank');
+            }
+        }
+
+        function markConsultationProcessed(consultationId) {
+            const consultationIndex = appData.consultations.findIndex(c => c.id === consultationId);
+            if (consultationIndex !== -1) {
+                appData.consultations[consultationIndex].status = 'processed';
+                saveData();
+                updateAdminConsultationsList();
+                alert('Consulta marcada como procesada');
+            }
+        }
+
+        // Forum functions
+        function showNewPostForm() {
+            document.getElementById('newPostForm').style.display = 'block';
+        }
+
+        function hideNewPostForm() {
+            document.getElementById('newPostForm').style.display = 'none';
+            // Clear form
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postContent').value = '';
+            document.getElementById('postCategory').value = 'general';
+        }
+
+        function createPost() {
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const category = document.getElementById('postCategory').value;
+
+            if (!title || !content) {
+                alert('Por favor, completa el título y contenido del post');
+                return;
+            }
+
+            const post = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                category: category,
+                author: appData.currentUser.username,
+                date: new Date().toLocaleString(),
+                likes: 0,
+                comments: []
+            };
+
+            appData.posts.unshift(post); // Add to beginning
+            saveData();
+            renderForumPosts();
+            hideNewPostForm();
+        }
+
+        function renderForumPosts() {
+            // In a real app, this would render user posts
+            // For demo, we keep the static posts
+        }
+
+        function likePost(postId) {
+            alert('Post liked! 👍');
+        }
+
+        function showComments(postId) {
+            alert('Función de comentarios: En desarrollo. Aquí se mostrarían los comentarios del post.');
+        }
+
+        // Data persistence
+        function saveData() {
+            Object.keys(appData).forEach(key => {
+                try {
+                    window.appStorage = window.appStorage || {};
+                    window.appStorage[key] = JSON.stringify(appData[key]);
+                } catch (e) {
+                    console.log('Storage not available');
+                }
+            });
+        }
+
+        function loadData() {
+            try {
+                if (window.appStorage) {
+                    Object.keys(appData).forEach(key => {
+                        if (window.appStorage[key]) {
+                            appData[key] = JSON.parse(window.appStorage[key]);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.log('No saved data found');
+            }
+        }
+
+        // Service Worker registration for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swScript = `
+                    const CACHE_NAME = 'astralcards-v1';
+                    const urlsToCache = ['/'];
+                    
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.addAll(urlsToCache))
+                        );
+                    });
+                    
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swScript], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>
