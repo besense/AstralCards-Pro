@@ -21,11 +21,11 @@
         }
 
         :root {
-            --primary-purple: #7c3aed;
-            --deep-purple: #5b21b6;
+            --primary-purple: #2563eb;
+            --deep-purple: #1d4ed8;
             --dark-bg: #0f0f23;
             --dark-card: #1a1a3a;
-            --gold: #fbbf24;
+            --gold: #f59e0b;
             --gold-light: #fcd34d;
             --text-light: #e5e7eb;
             --text-dark: #9ca3af;
@@ -662,8 +662,8 @@
                 <input type="password" id="password" placeholder="••••••••">
             </div>
             
-            <button class="btn btn-gold" onclick="login()">🌟 Acceder al Reino Astral</button>
-            <button class="btn btn-secondary" onclick="register()">✨ Crear Nueva Cuenta</button>
+            <button class="btn btn-gold" onclick="attemptLogin()">🌟 Acceder al Reino Astral</button>
+            <button class="btn btn-secondary" onclick="attemptRegister()">✨ Crear Nueva Cuenta</button>
             
             <p style="margin-top: 20px; font-size: 12px; color: var(--text-dark);">
                 Al acceder, aceptas nuestros términos y condiciones del servicio astrológico
@@ -1507,21 +1507,30 @@
             }
         }
 
-        // Authentication functions
-        function login() {
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
+        // Authentication functions with better debugging
+        function attemptLogin() {
+            console.log('🔑 Intentando login...');
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
 
+            console.log('Datos de login:', { username, email, password: password ? '***' : 'vacío' });
+
             if (!username || !email || !password) {
-                alert('Por favor, completa todos los campos');
+                alert('Por favor, completa todos los campos para iniciar sesión');
                 return;
             }
 
-            // Check if user exists
-            const existingUser = appData.users.find(u => u.email === email && u.password === password);
+            // Debug: show current users
+            console.log('Usuarios registrados:', appData.users);
+
+            // Check if user exists with email and password
+            const existingUser = appData.users.find(u => 
+                u.email.toLowerCase() === email && u.password === password
+            );
             
             if (existingUser) {
+                console.log('✅ Usuario encontrado:', existingUser);
                 // Successful login
                 appData.currentUser = existingUser;
                 appData.currentUser.lastSeen = new Date().toISOString();
@@ -1531,28 +1540,34 @@
                 alert(`¡Bienvenido de vuelta, ${existingUser.username}! 🌟`);
             } else {
                 // Check if email exists but wrong password
-                const emailExists = appData.users.find(u => u.email === email);
+                const emailExists = appData.users.find(u => u.email.toLowerCase() === email);
                 if (emailExists) {
+                    console.log('❌ Email existe pero contraseña incorrecta');
                     alert('Contraseña incorrecta. Por favor, verifica tus datos.');
                 } else {
+                    console.log('❌ Email no encontrado');
                     alert('No encontramos una cuenta con este email. ¿Quieres crear una cuenta nueva?');
                 }
             }
         }
 
-        function register() {
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
+        function attemptRegister() {
+            console.log('📝 Intentando registro...');
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
 
+            console.log('Datos de registro:', { username, email, password: password ? '***' : 'vacío' });
+
+            // Validate all fields
             if (!username || !email || !password) {
-                alert('Por favor, completa todos los campos para registrarte');
+                alert('Por favor, completa todos los campos para registrarte:\n• Nombre de usuario\n• Email\n• Contraseña');
                 return;
             }
 
             // Validate email format
             if (!isValidEmail(email)) {
-                alert('Por favor, introduce un email válido');
+                alert('Por favor, introduce un email válido\nEjemplo: usuario@gmail.com');
                 return;
             }
 
@@ -1562,20 +1577,22 @@
             }
 
             // Check if user already exists
-            const existingUser = appData.users.find(u => u.email === email);
+            const existingUser = appData.users.find(u => u.email.toLowerCase() === email);
             if (existingUser) {
-                alert('Este email ya está registrado. Usa "Acceder al Reino Astral" para iniciar sesión.');
+                console.log('❌ Email ya existe:', existingUser);
+                alert('Este email ya está registrado.\n\nUsa "Acceder al Reino Astral" para iniciar sesión.');
                 return;
             }
 
             // Create new user
+            console.log('✅ Creando nuevo usuario...');
             const newUser = {
                 id: Date.now(),
                 username: username,
                 email: email,
                 password: password,
                 joinDate: new Date().toLocaleDateString(),
-                isVerified: true, // Auto-verified for demo
+                isVerified: true,
                 verificationCode: generateVerificationCode(),
                 registrationDate: new Date().toISOString(),
                 lastSeen: new Date().toISOString(),
@@ -1597,14 +1614,36 @@
                 }
             };
 
+            console.log('👤 Usuario creado:', newUser);
+
+            // Initialize arrays if they don't exist
+            if (!appData.users) {
+                appData.users = [];
+            }
+
             // Add to users array
             appData.users.push(newUser);
             appData.currentUser = newUser;
+            
+            console.log('📦 Total usuarios:', appData.users.length);
+            console.log('💾 Guardando datos...');
+            
+            // Save data immediately
             saveData();
+            
+            // Verify data was saved
+            console.log('✅ Datos guardados. Verificando...');
+            loadData();
+            console.log('🔍 Usuarios después de cargar:', appData.users.length);
 
             // Send verification emails
-            sendUserVerificationEmail(newUser);
-            sendAdminNotificationEmail(newUser);
+            try {
+                sendUserVerificationEmail(newUser);
+                sendAdminNotificationEmail(newUser);
+            } catch (emailError) {
+                console.warn('⚠️ Error enviando emails:', emailError);
+                // Continue even if emails fail
+            }
 
             // Hide login screen and show app
             hideLoginScreen();
@@ -1612,15 +1651,21 @@
             
             // Show success message
             showRegistrationSuccess();
+            
+            console.log('🎉 Registro completado exitosamente');
         }
 
         function isValidEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+            const isValid = emailRegex.test(email);
+            console.log('📧 Validando email:', email, 'válido:', isValid);
+            return isValid;
         }
 
         function generateVerificationCode() {
-            return Math.random().toString(36).substring(2, 8).toUpperCase();
+            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            console.log('🔑 Código generado:', code);
+            return code;
         }
 
         function sendUserVerificationEmail(user) {
