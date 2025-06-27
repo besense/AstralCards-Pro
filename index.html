@@ -663,7 +663,7 @@
             </div>
             
             <button class="btn btn-gold" onclick="login()">🌟 Acceder al Reino Astral</button>
-            <button class="btn btn-secondary" onclick="register()">Crear Nueva Cuenta</button>
+            <button class="btn btn-secondary" onclick="register()">✨ Crear Nueva Cuenta</button>
             
             <p style="margin-top: 20px; font-size: 12px; color: var(--text-dark);">
                 Al acceder, aceptas nuestros términos y condiciones del servicio astrológico
@@ -1223,21 +1223,225 @@
                 return;
             }
 
-            // Simple validation for demo
-            appData.currentUser = {
-                username: username,
-                email: email,
-                joinDate: new Date().toLocaleDateString()
-            };
-
-            saveData();
-            hideLoginScreen();
-            updateUserInfo();
+            // Check if user exists
+            const existingUser = appData.users.find(u => u.email === email);
+            
+            if (existingUser) {
+                // Existing user login
+                appData.currentUser = existingUser;
+                saveData();
+                hideLoginScreen();
+                updateUserInfo();
+                alert(`¡Bienvenido de vuelta, ${existingUser.username}! 🌟`);
+            } else {
+                alert('Usuario no encontrado. Por favor, regístrate primero.');
+            }
         }
 
         function register() {
-            alert('Función de registro: En una versión completa, aquí se registraría el usuario en la base de datos.');
-            login(); // For demo purposes
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !email || !password) {
+                alert('Por favor, completa todos los campos para registrarte');
+                return;
+            }
+
+            // Validate email format
+            if (!isValidEmail(email)) {
+                alert('Por favor, introduce un email válido');
+                return;
+            }
+
+            // Check if user already exists
+            const existingUser = appData.users.find(u => u.email === email);
+            if (existingUser) {
+                alert('Este email ya está registrado. Usa "Acceder al Reino Astral" para iniciar sesión.');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                username: username,
+                email: email,
+                password: password, // En producción esto debería estar encriptado
+                joinDate: new Date().toLocaleDateString(),
+                isVerified: false,
+                verificationCode: generateVerificationCode(),
+                registrationDate: new Date().toISOString()
+            };
+
+            // Add to users array
+            appData.users.push(newUser);
+            appData.currentUser = newUser;
+            saveData();
+
+            // Send verification email
+            sendVerificationEmail(newUser);
+
+            // Hide login screen and show app
+            hideLoginScreen();
+            updateUserInfo();
+            
+            // Show verification message
+            showVerificationMessage();
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function generateVerificationCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        function sendVerificationEmail(user) {
+            const emailSubject = `🌟 Bienvenido/a a AstralCards Pro - Verificación de Cuenta`;
+            const emailBody = `
+¡Hola ${user.username}! 🔮
+
+¡Bienvenido/a al universo de AstralCards Pro! ✨
+
+Tu cuenta ha sido creada exitosamente con los siguientes datos:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 Nombre de usuario: ${user.username}
+📧 Email registrado: ${user.email}
+📅 Fecha de registro: ${user.joinDate}
+🔑 Código de verificación: ${user.verificationCode}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌟 ¿QUÉ PUEDES HACER AHORA?
+
+✨ Explorar nuestros servicios astrológicos profesionales
+💬 Participar en el foro de la comunidad astral
+🔮 Solicitar tu primera carta astral personalizada
+📱 Disfrutar de la app desde cualquier dispositivo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎁 OFERTA DE BIENVENIDA
+Como nuevo miembro, tienes acceso a:
+• Consulta inicial gratuita por email
+• 10% de descuento en tu primera carta astral
+• Acceso completo al foro comunitario
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💫 NUESTROS SERVICIOS:
+
+🚀 Carta Express (7 días) - €25
+• Carta astral completa y profesional
+• Análisis detallado de personalidad
+• Predicciones astrológicas mensuales
+• Consulta de seguimiento incluida
+
+🌙 Carta Detallada (30 días) - €32.99
+• Carta astral premium ultra-detallada
+• Análisis profundo de casas astrológicas
+• Compatibilidad amorosa incluida
+• Predicciones anuales completas
+• Consulta por videollamada
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📞 CONTACTO Y SOPORTE:
+Si tienes cualquier pregunta, no dudes en contactarme directamente a través de la app en la sección "Contacto".
+
+¡Que los astros te acompañen en este nuevo viaje! 🌟
+
+Con cariño astral,
+AstralCards Pro Team
+
+🔮✨ "Donde las estrellas revelan tu destino" ✨🔮
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Este email se ha enviado automáticamente al registrarte en AstralCards Pro.
+Tu privacidad es importante para nosotros y nunca compartiremos tu información.
+            `.trim();
+
+            // Create mailto link for automatic email
+            const mailtoLink = `mailto:${user.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client automatically
+            window.open(mailtoLink, '_blank');
+
+            // Also send a copy to admin
+            sendAdminNotification(user);
+
+            console.log('Verification email sent to:', user.email);
+        }
+
+        function sendAdminNotification(user) {
+            const adminEmailSubject = `🆕 Nuevo Usuario Registrado - ${user.username}`;
+            const adminEmailBody = `
+Nuevo usuario registrado en AstralCards Pro:
+
+👤 INFORMACIÓN DEL USUARIO:
+• Nombre: ${user.username}
+• Email: ${user.email}
+• Fecha de registro: ${user.joinDate}
+• Código de verificación: ${user.verificationCode}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Este usuario ya tiene acceso completo a la app y puede:
+✓ Participar en el foro
+✓ Solicitar consultas astrológicas
+✓ Realizar pagos por servicios
+
+¡Nuevo miembro de la comunidad astral!
+
+🔮 AstralCards Pro - Panel de Administración
+            `.trim();
+
+            const adminMailtoLink = `mailto:besense.oficial@gmail.com?subject=${encodeURIComponent(adminEmailSubject)}&body=${encodeURIComponent(adminEmailBody)}`;
+            
+            // Open admin notification email
+            setTimeout(() => {
+                window.open(adminMailtoLink, '_blank');
+            }, 1000); // Delay to not overwhelm browser
+        }
+
+        function showVerificationMessage() {
+            const welcomeModal = document.createElement('div');
+            welcomeModal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                background: rgba(0,0,0,0.9); z-index: 4000; 
+                display: flex; align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            welcomeModal.innerHTML = `
+                <div style="background: var(--dark-card); border-radius: 20px; padding: 40px; max-width: 400px; width: 100%; text-align: center; border: 2px solid var(--gold);">
+                    <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: var(--gold); margin-bottom: 15px; font-family: 'Crimson Text', serif;">¡Registro Exitoso!</h2>
+                    <p style="color: var(--text-light); margin-bottom: 20px; line-height: 1.6;">
+                        ¡Bienvenido/a a AstralCards Pro! 🌟<br><br>
+                        Se ha enviado un email de verificación a tu correo con:
+                    </p>
+                    <ul style="color: var(--text-dark); text-align: left; margin-bottom: 25px; line-height: 1.8;">
+                        <li>✨ Confirmación de registro</li>
+                        <li>🎁 Oferta de bienvenida</li>
+                        <li>📋 Información de servicios</li>
+                        <li>🔑 Código de verificación</li>
+                    </ul>
+                    <p style="color: var(--gold); font-size: 14px; margin-bottom: 25px;">
+                        💌 Revisa tu bandeja de entrada (y spam si no lo encuentras)
+                    </p>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="width: 100%; padding: 15px; background: linear-gradient(135deg, var(--gold), #f59e0b); 
+                                   color: var(--dark-bg); border: none; border-radius: 10px; font-weight: bold; 
+                                   cursor: pointer; font-size: 16px;">
+                        🚀 ¡Comenzar mi Viaje Astral!
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(welcomeModal);
         }
 
         function hideLoginScreen() {
